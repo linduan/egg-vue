@@ -7,10 +7,10 @@ export default [
     meta: {
       nav: {
         title: '记账本',
-        pre: 'wap-nav',
-        next: 'plus',
-        preRouter: 'Setting',
-        nextRouter: 'Add'
+        preIcon: 'wap-nav',
+        nextIcon: 'plus',
+        pre: 'Setting',
+        next: 'Add'
       }
     }
   },
@@ -21,10 +21,9 @@ export default [
     meta: {
       nav: {
         title: '记一笔',
-        pre: 'arrow-left',
-        next: 'arrow',
-        preRouter: '',
-        nextRouter: ''
+        preIcon: 'arrow-left',
+        nextIcon: '',
+        pre: 'Home'
       }
     }
   },
@@ -34,11 +33,10 @@ export default [
     component: ()=>import('@/components/Setting'),
     meta: {
       nav: {
-        title: '设置',
-        pre: 'arrow-left',
-        next: 'arrow',
-        preRouter: '',
-        nextRouter: ''
+        title: '设置分类',
+        preIcon: 'arrow-left',
+        nextIcon: '',
+        pre: 'Home'
       }
     }
   },
@@ -49,8 +47,8 @@ export default [
     meta: {
       nav: {
         title: 'MissingPage',
-        pre: 'arrow-left',
-        next: 'arrow'
+        preIcon: 'arrow-left',
+        nextIcon: 'arrow'
       }
     }
   },

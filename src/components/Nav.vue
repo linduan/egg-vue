@@ -1,11 +1,11 @@
 <template>
   <div class="c-nav">
     <slot name="pre">
-      <pagoda-icon class="nav pre" :name="nav.pre" @click="toPage(nav.preRouter)" />
+      <pagoda-icon v-if="nav.preIcon" class="nav pre" :name="nav.preIcon" @click="toPage(nav.pre)" />
     </slot>
     <div>{{nav.title}}</div>
     <slot name="next">
-      <pagoda-icon class="nav next" :name="nav.next" @click="toPage(nav.nextRouter)"/>
+      <pagoda-icon v-if="nav.preIcon" class="nav next" :name="nav.nextIcon" @click="toPage(nav.next)"/>
     </slot>
   </div>
 </template>
@@ -13,29 +13,27 @@
 <script>
 export default {
   name: 'c-nav',
-  props: {
-    msg: String
-  },
   data () {
     return {
       nav: {
-        title: '记事本',
-        pre: 'arrow-left',
-        next: 'arrow',
-        preRouter: '',
-        nextRouter: ''
+        title: '记账本',
+        preIcon: 'wap-nav',
+        nextIcon: 'plus',
+        pre: 'Setting',
+        next: 'Add'
       }
     }
   },
   watch: {
     $route () {
       const {nav} = this.$route.meta
-      this.nav = Object.assign({}, this.nav, nav)
+      this.nav = nav
       console.log('watch:', this.nav)
     }
   },
   methods: {
     toPage (name) {
+      // 配置为pre 或者 next 执行自定义事件而非跳转路由
       name && this.$router.push({name})
     }
   },
@@ -47,11 +45,12 @@ export default {
 <style lang="stylus" scoped>
   .c-nav
     text-align center
-    font-size 36px
+    font-size 60px
     line-height 80px
     height 80px
     position relative
     font-weight bold
+    margin 20px
     .nav
       position absolute
       width 80px
