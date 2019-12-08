@@ -1,10 +1,13 @@
 <template>
   <div class="c-home">
     <div class="note" :class="{'red': note.type === 1}" v-for="(note, index) in noteList" :key="index">
-      <div class="title">{{note.title}}</div>
-      <div class="content">
+      <div class="column first-column">
+        <div >{{note.title}}</div>
+        <div class="gray-text" v-if="note.remark">{{note.remark}}</div>
+      </div>
+      <div class="column">
         <div>{{note.cost}}</div>
-        <div class="date">{{note.date}}</div>
+        <div class="gray-text">{{note.date}}</div>
       </div>
       <div class="cross" @click="delNote(note)">
         <pagoda-icon  name="cross"/>
@@ -24,7 +27,8 @@ export default {
           title: '低保金',
           cost: 123.00,
           date: '2019-12-04',
-          type: 1
+          type: 1,
+          remark: '每月一次'
         },
         {
           id: 2,
@@ -78,12 +82,12 @@ export default {
       border-bottom 2px solid #DDD
       &.red
         color #F7534F
-      .title
+      .first-column
         margin-right 30px
         width 250px
-      .content
+      .column
         flex 1
-      .date
+      .gray-text
         padding-top 10px
         font-size 36px
         color #666

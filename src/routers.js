@@ -33,10 +33,24 @@ export default [
     component: ()=>import('@/components/Setting'),
     meta: {
       nav: {
-        title: '设置分类',
+        title: '分类列表',
+        preIcon: 'arrow-left',
+        nextIcon: 'plus',
+        pre: 'Home',
+        next: 'SettingAdd'
+      }
+    }
+  },
+  {
+    path: '/SettingAdd',
+    name: 'SettingAdd',
+    component: ()=>import('@/components/SettingAdd'),
+    meta: {
+      nav: {
+        title: '添加分类',
         preIcon: 'arrow-left',
         nextIcon: '',
-        pre: 'Home'
+        pre: 'Setting'
       }
     }
   },

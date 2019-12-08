@@ -1,4 +1,7 @@
 import axios from 'axios'
+import Vue from 'vue'
+import { Toast } from 'pagoda-mobile'
+Vue.use(Toast)
 
 let accessInHead = 'AccessType'
 let axioCount = 0 // 计数当前发送中的axioCount数量
@@ -42,7 +45,7 @@ axio.interceptors.response.use(res => {
 }, error => Promise.reject(error))
 
 // 发送http请求
-function requestHandle (params) {
+function requestHandle (params, msg) {
   return new Promise((resolve, reject) => {
     axio(params).then(res => {
       let {resCode, data} = res // resCode一般为后台返回执行状态码
@@ -55,7 +58,13 @@ function requestHandle (params) {
         // alert('操作成功')
       }
       resolve(data)
-    }).catch(err => reject(err))
+    }).catch(err => {
+      if (msg) {
+        Toast.fail(msg)
+        console.log(msg)
+      }
+      reject(err)
+    })
   })
 }
 
@@ -70,17 +79,17 @@ function toQueryString (url = '', params = {}) {
 }
 
 export default {
-  post (url, data) {
+  post (url, data = {}, msg) {
     return requestHandle({
       url,
       data,
       methods: 'post'
-    })
+    }, msg)
   },
-  get (url, params) {
+  get (url, params = {}, msg) {
     return requestHandle({
       url: toQueryString(url, params),
       methods: 'get'
-    })
+    }, msg)
   }
 }

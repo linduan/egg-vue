@@ -1,29 +1,26 @@
 <template>
   <div class="c-add">
-    <div>
-      <pagoda-field readonly clickable label="类型" :value="type" @click="showType = true"/>
-      <pagoda-popup v-model="showType" position="bottom">
-        <pagoda-picker show-toolbar :columns="types" @cancel="showType = false" @confirm="confirmType"/>
-      </pagoda-popup>
-    </div>
-    <div>
+    <div class="row">
       <pagoda-field readonly clickable label="分类" :value="categoryId" @click="showCategory = true"/>
       <pagoda-popup v-model="showCategory" position="bottom">
         <pagoda-picker show-toolbar :columns="categories" @cancel="showCategory = false" @confirm="confirmCategory"/>
       </pagoda-popup>
     </div>
-    <div>
+    <div class="row">
       <pagoda-field readonly clickable label="日期" :value="time" @click="showTime = true"/>
       <pagoda-popup v-model="showTime" position="bottom">
         <pagoda-datetime-picker v-model="date" type="date" @cancel="showTime = false" @confirm="confirmTime"/>
       </pagoda-popup>
     </div>
-    <pagoda-cell-group>
+    <pagoda-cell-group class="row">
       <pagoda-field v-model="amount" required clearable label="金额" placeholder="0.00"/>
     </pagoda-cell-group>
-    <pagoda-cell-group>
+    <pagoda-cell-group class="row">
       <pagoda-field v-model="remark" required clearable label="备注" placeholder="请输入备注"/>
     </pagoda-cell-group>
+    <div class="btns">
+      <pagoda-button type="primary" size="normal" @click="addNote">保存</pagoda-button>
+    </div>
   </div>
 </template>
 
@@ -48,10 +45,16 @@ export default {
   },
   methods: {
     addNote () {
-      let params = {}
-      this.$api.note.addNote(params).then(res => {
-        console.log(res)
-      })
+      let params = {
+        categoryId: this.categoryId,
+        time: this.time,
+        amount: this.amount,
+        remark: this.remark
+      }
+      console.log('click addNote:', params)
+      // this.$api.note.addNote(params).then(res => {
+      //   console.log(res)
+      // })
     },
     getCategories () {
       this.$api.catagery.getList().then(res => {
@@ -77,6 +80,9 @@ export default {
       let d = ('' + date.getDate()).padStart(2, '0')
       this.time = `${y}-${m}-${d}`
     }
+  },
+  created () {
+    // this.getCategories()
   }
 }
 </script>
@@ -85,8 +91,9 @@ export default {
 <style lang="stylus" scoped>
   .c-add
     text-align left
-    .item
-      padding 20px
-      label
-        width 80px
+    .row
+      margin-bottom 40px
+    .btns
+      padding 10px
+      text-align center
 </style>
