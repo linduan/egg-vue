@@ -9,8 +9,12 @@ class Category {
   addCategory (data) {
     return $http.post(`/category/add`, data, '添加分类失败!')
   }
+  updateCategory (data) {
+    return $http.post(`/category/update`, data, '更新分类失败!')
+  }
   delCategory (data) {
-    return $http.post(`/category/del`, data, '删除分类失败!')
+    let {id} = data
+    return $http.post(`/category/remove/${id}`, data, '删除分类失败!')
   }
 }
 export default new Category()

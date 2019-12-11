@@ -16,6 +16,10 @@
 </template>
 
 <script>
+const TYPES = {
+  '收入': '1',
+  '支出': '2'
+}
 export default {
   name: 'SettingAdd',
   data () {
@@ -29,8 +33,8 @@ export default {
   methods: {
     addCategory () {
       let params = {
-        type: this.type,
-        title: this.title
+        category_type: TYPES[this.type],
+        category_name: this.title
       }
       this.$api.category.addCategory(params).then(res => {
         console.log(res)

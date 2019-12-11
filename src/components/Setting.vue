@@ -3,13 +3,13 @@
       <div v-for="(category, index) in categories" :key="index" class="group">
         <div class="row">
           <label>类型</label>
-          <div>{{category.type}}</div>
+          <div>{{category.category_type | typeFilter}}</div>
         </div>
         <div class="row">
           <label>名称</label>
-          <div>{{category.title}}</div>
+          <div>{{category.category_name}}</div>
         </div>
-        <div class="cross" @click="delCategory(category)">
+        <div class="cross" @click="delCategory(category.id)">
           <pagoda-icon  name="cross"/>
         </div>
       </div>
@@ -33,21 +33,27 @@ export default {
       ]
     }
   },
+  filters: {
+    typeFilter (val) {
+      return val === '1' ? '支出' : '收入'
+    }
+  },
   methods: {
     getCategories () {
-      this.$api.category.getList().then(res => {
-        this.categories = res.data
+      this.$api.category.getCategoryList().then(res => {
+        this.categories = res.data.result
       })
     },
-    delCategory () {
-      this.$api.category.delCategory().then(res => {
-        this.getCategories()
+    delCategory (id) {
+      this.$api.category.delCategory({id}).then(res => {
         console.log(res)
+        this.$toast.success('删除成功!')
+        this.getCategories()
       })
     }
   },
   created () {
-    // this.getCategories()
+    this.getCategories()
   }
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div class="c-add">
     <div class="row">
-      <pagoda-field readonly clickable label="分类" :value="categoryId" @click="showCategory = true"/>
+      <pagoda-field readonly clickable label="分类" :value="category" @click="showCategory = true"/>
       <pagoda-popup v-model="showCategory" position="bottom">
-        <pagoda-picker show-toolbar :columns="categories" @cancel="showCategory = false" @confirm="confirmCategory"/>
+        <pagoda-picker show-toolbar :columns="categoriesTag" @cancel="showCategory = false" @confirm="confirmCategory"/>
       </pagoda-popup>
     </div>
     <div class="row">
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       type: '',
-      categoryId: '',
+      category: '',
       time: '',
       date: new Date(),
       amount: '',
@@ -43,22 +43,28 @@ export default {
       categories: []
     }
   },
+  computed: {
+    categoriesTag () {
+      return this.categories.map(val => val.category_name)
+    }
+  },
   methods: {
     addNote () {
+      let category = this.categories.find(item => item.category_name === this.category)
       let params = {
-        categoryId: this.categoryId,
+        categoryId: category.id,
         time: this.time,
         amount: this.amount,
         remark: this.remark
       }
       console.log('click addNote:', params)
-      // this.$api.note.addNote(params).then(res => {
-      //   console.log(res)
-      // })
+      this.$api.note.addNote(params).then(res => {
+        console.log(res)
+      })
     },
     getCategories () {
-      this.$api.catagery.getList().then(res => {
-        this.categories =  res.data
+      this.$api.category.getCategoryList().then(res => {
+        this.categories =  res.data.result
       })
     },
     confirmType (val) {
@@ -69,10 +75,9 @@ export default {
     confirmCategory (val) {
       console.log(val)
       this.showCategory = false
-      // this.categoryId = val
+      this.category = val
     },
     confirmTime (val) {
-      console.log(val)
       this.showTime = false
       let date = new Date(val)
       let y = date.getFullYear()
@@ -82,7 +87,7 @@ export default {
     }
   },
   created () {
-    // this.getCategories()
+    this.getCategories()
   }
 }
 </script>

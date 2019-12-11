@@ -48,19 +48,18 @@ export default {
   methods: {
     getNoteList () {
       let params = {}
-      console.log('getNoteList', params)
-      // this.$api.note.getNoteList(params).then(res => {
-      //   console.log(res)
-      //   this.noteList = res.data
-      // })
+      this.$api.note.getNoteList(params).then(res => {
+        console.log(res)
+        this.noteList = res.data.newRes
+      })
     },
     delNote (note) {
       let params = { id: note.id }
-      console.log('delNote', params)
-      // this.$api.note.delNote(params).then(res => {
-      //   console.log(res)
-      //   this.getNoteList()
-      // })
+      this.$api.note.delNote(params).then(res => {
+        console.log(res)
+        this.$toast.success('删除成功!')
+        this.getNoteList()
+      })
     }
   },
   created () {

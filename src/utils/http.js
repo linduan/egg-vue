@@ -7,7 +7,8 @@ let accessInHead = 'AccessType'
 let axioCount = 0 // 计数当前发送中的axioCount数量
 const ticket = 'ticket' // 自定义鉴权信息字段
 const axio = axios.create({
-  baseURL: 'http://192.168.0.101:7001/',
+  // baseURL: 'http://192.168.0.101:7001/',
+  baseURL: 'http://192.168.6.209:7001/api/v1'
 })
 
 // http发送请求前拦截器
@@ -47,6 +48,7 @@ axio.interceptors.response.use(res => {
 // 发送http请求
 function requestHandle (params, msg) {
   return new Promise((resolve, reject) => {
+    console.log(params)
     axio(params).then(res => {
       let {resCode, data} = res // resCode一般为后台返回执行状态码
       if (resCode === -1000) {
@@ -83,13 +85,13 @@ export default {
     return requestHandle({
       url,
       data,
-      methods: 'post'
+      method: 'post'
     }, msg)
   },
   get (url, params = {}, msg) {
     return requestHandle({
       url: toQueryString(url, params),
-      methods: 'get'
+      method: 'get'
     }, msg)
   }
 }
